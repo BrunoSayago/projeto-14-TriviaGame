@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getToken } from '../services/api';
+import { loginAction } from '../redux/actions/index';
 // import { Redirect } from 'react-router-dom';
 // import { newUser } from '../redux/actions';
 
@@ -30,7 +31,8 @@ class Login extends React.Component {
   handleClick = async () => {
     const token = await getToken();
     localStorage.setItem('token', token.token);
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
+    dispatch(loginAction(this.state));
     history.push('/games');
   };
 
@@ -79,6 +81,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,

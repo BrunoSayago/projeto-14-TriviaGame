@@ -1,4 +1,11 @@
-const ACTION = 'ACTION';
-const action = (payload) => ({ type: ACTION, payload });
+const LOGIN_ACTION = 'LOGIN_ACTION';
 
-export default action;
+const loginAction = (userInfo) => ({
+  type: LOGIN_ACTION,
+  userInfo,
+});
+
+export {
+  LOGIN_ACTION,
+  loginAction,
+};
