@@ -61,10 +61,14 @@ class Game extends React.Component {
               {questions[contador].question}
             </p>
             <div data-testid="answer-options">
-              {this.shuffleArray(allAnswers).map((element) => (
+              {this.shuffleArray(allAnswers).map((element, index) => (
                 <button
                   key={ element }
                   type="button"
+                  data-testid={
+                    element === correctAnswer
+                      ? 'correct-answer' : `wrong-answer-${index}`
+                  }
                 >
                   { element }
                 </button>))}
