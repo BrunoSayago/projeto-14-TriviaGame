@@ -11,7 +11,8 @@ class Game extends React.Component {
     questions: [],
     contador: 0,
     isLoading: true,
-    allQuestions: [],
+    correctAnswer: [],
+    wrongAnswers: [],
   };
 
   async componentDidMount() {
@@ -20,11 +21,14 @@ class Game extends React.Component {
     const localToken = localStorage.getItem('token');
     const questions = await getQuestions(localToken);
     const { results } = questions;
-    const allQuestions = [results[contador].correct_answer,
-      ...results[contador].incorrect_answers,
-    ];
+
     if (questions.response_code === 0) {
-      this.setState({ isLoading: false, questions: results, allQuestions });
+      this.setState({
+        isLoading: false,
+        questions: results,
+        correctAnswer: [results[contador].correct_answer],
+        wrongAnswers: [...results[contador].incorrect_answers],
+      });
       dispatch(questionsAction(questions));
     } else {
       this.setState({ isLoading: false });
@@ -33,22 +37,17 @@ class Game extends React.Component {
     }
   }
 
-  // function shuffleArray(arr) {
-  //   // Loop em todos os elementos
-  //   for (let i = arr.length - 1; i > 0; i--) {
-  //       // Escolhendo elemento aleatório
-  //   const j = Math.floor(Math.random() * (i + 1));
-  //   // Reposicionando elemento
-  //   [arr[i], arr[j]] = [arr[j], arr[i]];
-  // }
-  //   return arr;
-  // }
+  shuffleArray = (arr) => {
+    for (let i = arr.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  };
 
   render() {
-    const { questions, contador, isLoading, allQuestions } = this.state;
-    if (!isLoading) {
-      console.log(allQuestions);
-    }
+    const { questions, contador, isLoading, correctAnswer, wrongAnswers } = this.state;
+    const allAnswers = [correctAnswer, ...wrongAnswers];
     return (
       <div>
         {isLoading && <Loading />}
@@ -61,8 +60,14 @@ class Game extends React.Component {
             <p data-testid="question-text">
               {questions[contador].question}
             </p>
-            <div>
-              {allQuestions.map((element) => <button>{element}</button>)}
+            <div data-testid="answer-options">
+              {this.shuffleArray(allAnswers).map((element) => (
+                <button
+                  key={ element }
+                  type="button"
+                >
+                  { element }
+                </button>))}
             </div>
           </div>
         )}
