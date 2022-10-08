@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndRedux } from './renderWithRouterAndRedux';
 import App from '../../App';
@@ -27,7 +27,7 @@ describe('será avaliado se o arquivo Login.test.js contem 90%', () => {
     userEvent.type(inputEmail, 'test@gmail.com');
     expect(buttonEntry).toBeEnabled();
     userEvent.click(buttonEntry);
-    
+
     await new Promise((r) => setTimeout(r, 2000));
     expect(history.location.pathname).toBe('/games');
   });
