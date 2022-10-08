@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
+import '../App.css';
 import { getQuestions } from '../services/api';
 import { questionsAction } from '../redux/actions/index';
 
@@ -13,6 +14,8 @@ class Game extends React.Component {
     isLoading: true,
     correctAnswer: [],
     wrongAnswers: [],
+    incorrect: '',
+    correct: '',
   };
 
   async componentDidMount() {
@@ -45,9 +48,25 @@ class Game extends React.Component {
     return arr;
   };
 
+  handleClick = (element) => {
+    const { correctAnswer } = this.state;
+    console.log(element);
+    const convertedCorrectAnswer = correctAnswer[0];
+    if (element === convertedCorrectAnswer) {
+      this.setState({ incorrect: '3px solid red', correct: '3px solid rgb(6, 240, 15)' });
+    } else {
+      this.setState({ incorrect: '3px solid red', correct: '3px solid rgb(6, 240, 15)' });
+    }
+  };
+
   render() {
-    const { questions, contador, isLoading, correctAnswer, wrongAnswers } = this.state;
-    const allAnswers = [correctAnswer, ...wrongAnswers];
+    const {
+      questions, contador, isLoading, correctAnswer, wrongAnswers, incorrect, correct,
+    } = this.state;
+
+    const allAnswers = [...correctAnswer, ...wrongAnswers];
+    const convertedCorrectAnswer = correctAnswer[0];
+    // console.log(allAnswers);
     return (
       <div>
         {isLoading && <Loading />}
@@ -65,10 +84,15 @@ class Game extends React.Component {
                 <button
                   key={ element }
                   type="button"
+                  style={
+                    element === convertedCorrectAnswer
+                      ? { border: correct } : { border: incorrect }
+                  }
                   data-testid={
-                    element === correctAnswer
+                    element === convertedCorrectAnswer
                       ? 'correct-answer' : `wrong-answer-${index}`
                   }
+                  onClick={ () => this.handleClick(element) }
                 >
                   { element }
                 </button>))}
