@@ -12,6 +12,7 @@ class Game extends React.Component {
     questions: [],
     contador: 0,
     isLoading: true,
+    // isDisabled: true,
     correctAnswer: [],
     wrongAnswers: [],
     incorrect: '',
@@ -61,12 +62,16 @@ class Game extends React.Component {
 
   render() {
     const {
-      questions, contador, isLoading, correctAnswer, wrongAnswers, incorrect, correct,
+      questions, contador, isLoading, correctAnswer, wrongAnswers,
+      incorrect, correct,
+      // isDisabled,
     } = this.state;
 
     const allAnswers = [...correctAnswer, ...wrongAnswers];
     const convertedCorrectAnswer = correctAnswer[0];
-    // console.log(allAnswers);
+
+    // if (!isLoading) {
+    // }
     return (
       <div>
         {isLoading && <Loading />}
@@ -84,6 +89,7 @@ class Game extends React.Component {
                 <button
                   key={ element }
                   type="button"
+                  // disabled={ isDisabled }
                   style={
                     element === convertedCorrectAnswer
                       ? { border: correct } : { border: incorrect }
