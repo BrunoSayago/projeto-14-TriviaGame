@@ -3,7 +3,9 @@ import { LOGIN_ACTION } from '../actions';
 const INITIAL_STATE = {
   user: {
     email: '',
+    assertions: 0,
     name: '',
+    score: 0,
   },
 };
 

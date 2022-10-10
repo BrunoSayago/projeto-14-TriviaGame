@@ -1,4 +1,5 @@
 const LOGIN_ACTION = 'LOGIN_ACTION';
+const SCORE_ACTION = 'SCORE_ACTION';
 const QUESTION_ACTION = 'QUESTION_ACTION';
 const TOKEN_ERROR = 'TOKEN_ERROR';
 
@@ -9,6 +10,11 @@ const loginAction = (userInfo) => ({
 
 const questionsAction = (payload) => ({
   type: QUESTION_ACTION,
+  payload,
+});
+
+const scoreAction = (payload) => ({
+  type: SCORE_ACTION,
   payload,
 });
 
@@ -33,6 +39,8 @@ export {
   QUESTION_ACTION,
   LOGIN_ACTION,
   TOKEN_ERROR,
+  SCORE_ACTION,
   loginAction,
   questionsAction,
+  scoreAction,
 };
