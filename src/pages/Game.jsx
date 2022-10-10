@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import '../App.css';
 import { getQuestions } from '../services/api';
-import { questionsAction } from '../redux/actions/index';
+import { questionsAction, scoreAction } from '../redux/actions/index';
 
 class Game extends React.Component {
   state = {
@@ -20,6 +20,7 @@ class Game extends React.Component {
     correct: '',
     timer: 0,
     seconds: 30,
+    difficulty: '',
   };
 
   async componentDidMount() {
@@ -28,6 +29,7 @@ class Game extends React.Component {
     const localToken = localStorage.getItem('token');
     const questions = await getQuestions(localToken);
     const { results } = questions;
+    // console.log(results[contador]);
 
     if (questions.response_code === 0) {
       this.startTimer();
@@ -36,8 +38,10 @@ class Game extends React.Component {
         questions: results,
         correctAnswer: [results[contador].correct_answer],
         wrongAnswers: [...results[contador].incorrect_answers],
+        difficulty: results[contador].difficulty,
         isPlaying: true,
       });
+      console.log([results[contador].correct_answer]);
       dispatch(questionsAction(questions));
     } else {
       this.setState({ isLoading: false });
@@ -55,20 +59,43 @@ class Game extends React.Component {
   };
 
   handleClick = (element) => {
-    const { timer } = this.state;
+    const { timer, correctAnswer } = this.state;
+    const { dispatch } = this.props;
     console.log(element);
-    // const convertedCorrectAnswer = correctAnswer[0];
+    const convertedCorrectAnswer = correctAnswer[0];
+    if (element === convertedCorrectAnswer) {
+      const points = this.scoreCount();
+      dispatch(scoreAction(points));
+    }
+
     clearInterval(timer);
     this.setState({
       isPlaying: false,
       incorrect: '3px solid red',
       correct: '3px solid rgb(6, 240, 15)',
     });
-    // if (element === convertedCorrectAnswer) {
-    //   this.setState({ incorrect: '3px solid red', correct: '3px solid rgb(6, 240, 15)' });
-    // } else {
-    //   this.setState({ incorrect: '3px solid red', correct: '3px solid rgb(6, 240, 15)' });
-    // }
+  };
+
+  scoreCount = () => {
+    const { difficulty, seconds } = this.state;
+    let modificador;
+    const THREE = 3;
+    const TWO = 2;
+    const ONE = 1;
+    const TEN = 10;
+    switch (difficulty) {
+    case 'hard':
+      modificador = THREE;
+      break;
+    case 'medium':
+      modificador = TWO;
+      break;
+    default:
+      modificador = ONE;
+    }
+    // 10 + (timer * dificuldade)
+    const actualStore = TEN + (seconds * modificador);
+    return actualStore;
   };
 
   startTimer = () => {
@@ -152,6 +179,7 @@ class Game extends React.Component {
 
 const mapStateToProps = (state) => ({
   questions: state.game.questions,
+  // score: state.game.player.score,
   response_code: state.response_code,
 });
 
