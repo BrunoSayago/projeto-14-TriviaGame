@@ -6,7 +6,7 @@ import Header from '../components/Header';
 
 class Feedback extends Component {
   render() {
-    const { assertions, score } = this.props;
+    const { assertions, score, history } = this.props;
     const THREE = 3;
     return (
       <div>
@@ -19,6 +19,20 @@ class Feedback extends Component {
         </p>
         <p data-testid="feedback-total-score">{ score }</p>
         <p data-testid="feedback-total-question">{ assertions }</p>
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ () => history.push('/') }
+        >
+          Play Again
+        </button>
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
+        >
+          Ranking
+        </button>
       </div>
     );
   }
@@ -33,9 +47,9 @@ Feedback.propTypes = {
   assertions: PropTypes.number,
   score: PropTypes.number,
   // dispatch: PropTypes.func,
-  // history: PropTypes.shape({
-  // push: PropTypes.func.isRequired,
-  // }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 }.isRequired;
 
 export default connect(mapStateToProps)(Feedback);
