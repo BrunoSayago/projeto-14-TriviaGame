@@ -13,28 +13,30 @@ class Game extends React.Component {
     contador: 0,
     isLoading: true,
     // isDisabled: true,
+    isPlaying: false,
     correctAnswer: [],
     wrongAnswers: [],
     incorrect: '',
     correct: '',
-    timer: '',
-    time: {},
+    timer: 0,
     seconds: 30,
   };
 
   async componentDidMount() {
     const { history, dispatch } = this.props;
-    const { seconds, contador } = this.state;
+    const { contador } = this.state;
     const localToken = localStorage.getItem('token');
     const questions = await getQuestions(localToken);
     const { results } = questions;
 
     if (questions.response_code === 0) {
+      this.startTimer();
       this.setState({
         isLoading: false,
         questions: results,
         correctAnswer: [results[contador].correct_answer],
         wrongAnswers: [...results[contador].incorrect_answers],
+        isPlaying: true,
       });
       dispatch(questionsAction(questions));
     } else {
@@ -42,8 +44,6 @@ class Game extends React.Component {
       localStorage.removeItem('token');
       history.push('/');
     }
-    const timeLeftVar = this.secondsToTime(seconds);
-    this.setState({ time: timeLeftVar });
   }
 
   shuffleArray = (arr) => {
@@ -55,62 +55,53 @@ class Game extends React.Component {
   };
 
   handleClick = (element) => {
-    const { correctAnswer } = this.state;
+    const { timer } = this.state;
     console.log(element);
-    const convertedCorrectAnswer = correctAnswer[0];
-    if (element === convertedCorrectAnswer) {
-      this.setState({ incorrect: '3px solid red', correct: '3px solid rgb(6, 240, 15)' });
-    } else {
-      this.setState({ incorrect: '3px solid red', correct: '3px solid rgb(6, 240, 15)' });
-    }
+    // const convertedCorrectAnswer = correctAnswer[0];
+    clearInterval(timer);
+    this.setState({
+      isPlaying: false,
+      incorrect: '3px solid red',
+      correct: '3px solid rgb(6, 240, 15)',
+    });
+    // if (element === convertedCorrectAnswer) {
+    //   this.setState({ incorrect: '3px solid red', correct: '3px solid rgb(6, 240, 15)' });
+    // } else {
+    //   this.setState({ incorrect: '3px solid red', correct: '3px solid rgb(6, 240, 15)' });
+    // }
   };
 
-  startTimer() {
+  startTimer = () => {
     const SEGUNDO = 1000;
     const { timer, seconds } = this.state;
     if (timer === 0 && seconds > 0) {
       const timerID = setInterval(this.countDown, SEGUNDO);
       this.setState({ timer: timerID });
     }
-  }
+  };
 
-  secondsToTime(secs) {
-    const TEMPO = 60;
-    const hours = Math.floor(secs / (TEMPO * TEMPO));
-
-    const divisorForMinutes = secs % (TEMPO * TEMPO);
-    const minutes = Math.floor(divisorForMinutes / TEMPO);
-
-    const divisorForSeconds = divisorForMinutes % TEMPO;
-    const seconds = Math.ceil(divisorForSeconds);
-
-    const obj = {
-      h: hours,
-      m: minutes,
-      s: seconds,
-    };
-    return obj;
-  }
-
-  countDown() {
+  countDown = () => {
     const { timer, seconds } = this.state;
-    const segundos = seconds - 1;
-    this.setState({
-      time: this.secondsToTime(segundos),
-      seconds: segundos,
-    });
-
-    // Check if we're at zero.
     if (seconds === 0) {
       clearInterval(timer);
+      this.setState({
+        isPlaying: false,
+        timer: 0,
+        incorrect: '3px solid red',
+        correct: '3px solid rgb(6, 240, 15)',
+      });
+    } else {
+      const segundos = seconds - 1;
+      this.setState({
+        seconds: segundos,
+      });
     }
-  }
+  };
 
   render() {
     const {
       questions, contador, isLoading, correctAnswer, wrongAnswers,
-      incorrect, correct, seconds, time,
-      // isDisabled,
+      incorrect, correct, seconds, isPlaying,
     } = this.state;
 
     const allAnswers = [...correctAnswer, ...wrongAnswers];
@@ -124,20 +115,9 @@ class Game extends React.Component {
         {!isLoading && (
           <div>
             <Header />
-            <button type="button" onClick={ this.startTimer }>Start</button>
-            <p>
-              m:
-              {' '}
-              {time.m}
-              {' '}
-              s:
-              {' '}
-              {time.s}
-            </p>
             <p name="timer">
               {seconds}
             </p>
-
             <p data-testid="question-category">
               {questions[contador].category}
             </p>
@@ -149,7 +129,7 @@ class Game extends React.Component {
                 <button
                   key={ element }
                   type="button"
-                  // disabled={ isDisabled }
+                  disabled={ !isPlaying }
                   style={
                     element === convertedCorrectAnswer
                       ? { border: correct } : { border: incorrect }
