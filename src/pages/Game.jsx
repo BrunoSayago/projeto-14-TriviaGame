@@ -76,6 +76,28 @@ class Game extends React.Component {
     });
   };
 
+  /* correctAnswer: [results[contador].correct_answer],
+        wrongAnswers: [...results[contador].incorrect_answers], */
+  nextClick = () => {
+    const { contador, questions } = this.state;
+    const FOUR = 4;
+    const { history } = this.props;
+    if (contador === FOUR) {
+      history.push('/feedback');
+    } else {
+      this.setState({
+        contador: contador + 1,
+        isPlaying: true,
+        incorrect: '',
+        correct: '',
+        timer: 0,
+        seconds: 30,
+        correctAnswer: [questions[contador].correct_answer],
+        wrongAnswers: [...questions[contador].incorrect_answers],
+      }, () => this.startTimer());
+    }
+  };
+
   scoreCount = () => {
     const { difficulty, seconds } = this.state;
     let modificador;
@@ -170,6 +192,17 @@ class Game extends React.Component {
                   { element }
                 </button>))}
             </div>
+            {
+              !isPlaying && (
+                <button
+                  data-testid="btn-next"
+                  type="button"
+                  disabled={ isPlaying }
+                  onClick={ this.nextClick }
+                >
+                  Next
+                </button>)
+            }
           </div>
         )}
       </div>
