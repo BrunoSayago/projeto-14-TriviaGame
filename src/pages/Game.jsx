@@ -17,11 +17,14 @@ class Game extends React.Component {
     wrongAnswers: [],
     incorrect: '',
     correct: '',
+    timer: '',
+    time: {},
+    seconds: 30,
   };
 
   async componentDidMount() {
     const { history, dispatch } = this.props;
-    const { contador } = this.state;
+    const { seconds, contador } = this.state;
     const localToken = localStorage.getItem('token');
     const questions = await getQuestions(localToken);
     const { results } = questions;
@@ -39,6 +42,8 @@ class Game extends React.Component {
       localStorage.removeItem('token');
       history.push('/');
     }
+    const timeLeftVar = this.secondsToTime(seconds);
+    this.setState({ time: timeLeftVar });
   }
 
   shuffleArray = (arr) => {
@@ -60,10 +65,51 @@ class Game extends React.Component {
     }
   };
 
+  startTimer() {
+    const SEGUNDO = 1000;
+    const { timer, seconds } = this.state;
+    if (timer === 0 && seconds > 0) {
+      const timerID = setInterval(this.countDown, SEGUNDO);
+      this.setState({ timer: timerID });
+    }
+  }
+
+  secondsToTime(secs) {
+    const TEMPO = 60;
+    const hours = Math.floor(secs / (TEMPO * TEMPO));
+
+    const divisorForMinutes = secs % (TEMPO * TEMPO);
+    const minutes = Math.floor(divisorForMinutes / TEMPO);
+
+    const divisorForSeconds = divisorForMinutes % TEMPO;
+    const seconds = Math.ceil(divisorForSeconds);
+
+    const obj = {
+      h: hours,
+      m: minutes,
+      s: seconds,
+    };
+    return obj;
+  }
+
+  countDown() {
+    const { timer, seconds } = this.state;
+    const segundos = seconds - 1;
+    this.setState({
+      time: this.secondsToTime(segundos),
+      seconds: segundos,
+    });
+
+    // Check if we're at zero.
+    if (seconds === 0) {
+      clearInterval(timer);
+    }
+  }
+
   render() {
     const {
       questions, contador, isLoading, correctAnswer, wrongAnswers,
-      incorrect, correct,
+      incorrect, correct, seconds, time,
       // isDisabled,
     } = this.state;
 
@@ -78,6 +124,20 @@ class Game extends React.Component {
         {!isLoading && (
           <div>
             <Header />
+            <button type="button" onClick={ this.startTimer }>Start</button>
+            <p>
+              m:
+              {' '}
+              {time.m}
+              {' '}
+              s:
+              {' '}
+              {time.s}
+            </p>
+            <p name="timer">
+              {seconds}
+            </p>
+
             <p data-testid="question-category">
               {questions[contador].category}
             </p>
