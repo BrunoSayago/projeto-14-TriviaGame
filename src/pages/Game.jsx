@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import '../App.css';
 import { getQuestions } from '../services/api';
-import { questionsAction, scoreAction } from '../redux/actions/index';
+import { questionsAction, scoreAction, assertionsAction } from '../redux/actions/index';
 
 class Game extends React.Component {
   state = {
@@ -66,6 +66,7 @@ class Game extends React.Component {
     if (element === convertedCorrectAnswer) {
       const points = this.scoreCount();
       dispatch(scoreAction(points));
+      dispatch(assertionsAction());
     }
 
     clearInterval(timer);
