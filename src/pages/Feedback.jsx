@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import Header from '../components/Header';
 
 class Feedback extends Component {
   render() {
-    const { assertions, score, history } = this.props;
+    const { assertions, score } = this.props;
     const THREE = 3;
     return (
       <div>
@@ -19,20 +20,22 @@ class Feedback extends Component {
         </p>
         <p data-testid="feedback-total-score">{ score }</p>
         <p data-testid="feedback-total-question">{ assertions }</p>
-        <button
-          type="button"
-          data-testid="btn-play-again"
-          onClick={ () => history.push('/') }
-        >
-          Play Again
-        </button>
-        <button
-          type="button"
-          data-testid="btn-ranking"
-          onClick={ () => history.push('/ranking') }
-        >
-          Ranking
-        </button>
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Play Again
+          </button>
+        </Link>
+        <Link to="/ranking">
+          <button
+            type="button"
+            data-testid="btn-ranking"
+          >
+            Ranking
+          </button>
+        </Link>
       </div>
     );
   }
