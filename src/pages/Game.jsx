@@ -15,7 +15,8 @@ class Game extends React.Component {
     // isDisabled: true,
     isPlaying: false,
     correctAnswer: [],
-    wrongAnswers: [],
+    // wrongAnswers: [],
+    allAnswersInOrder: [],
     incorrect: '',
     correct: '',
     timer: 0,
@@ -29,15 +30,18 @@ class Game extends React.Component {
     const localToken = localStorage.getItem('token');
     const questions = await getQuestions(localToken);
     const { results } = questions;
-    // console.log(results[contador]);
+    console.log(results);
 
     if (questions.response_code === 0) {
+      const respostaCorreta = [results[contador].correct_answer];
+      const respostasErradas = [...results[contador].incorrect_answers];
       this.startTimer();
       this.setState({
         isLoading: false,
         questions: results,
-        correctAnswer: [results[contador].correct_answer],
-        wrongAnswers: [...results[contador].incorrect_answers],
+        correctAnswer: respostaCorreta,
+        // wrongAnswers: respostasErradas,
+        allAnswersInOrder: this.montaOrdem(respostaCorreta, respostasErradas),
         difficulty: results[contador].difficulty,
         isPlaying: true,
       });
@@ -49,6 +53,11 @@ class Game extends React.Component {
       history.push('/');
     }
   }
+
+  montaOrdem = (respostaCerta, respostasErradas) => {
+    const todasRespostas = [...respostaCerta, ...respostasErradas];
+    return this.shuffleArray(todasRespostas);
+  };
 
   shuffleArray = (arr) => {
     for (let i = arr.length - 1; i > 0; i -= 1) {
@@ -86,6 +95,9 @@ class Game extends React.Component {
     if (contador === FOUR) {
       history.push('/feedback');
     } else {
+      const respostaCorreta = [questions[contador + 1].correct_answer];
+      const respostasErradas = [...questions[contador + 1].incorrect_answers];
+      const emOrdem = this.montaOrdem(respostaCorreta, respostasErradas);
       this.setState({
         contador: contador + 1,
         isPlaying: true,
@@ -93,8 +105,9 @@ class Game extends React.Component {
         correct: '',
         timer: 0,
         seconds: 30,
-        correctAnswer: [questions[contador].correct_answer],
-        wrongAnswers: [...questions[contador].incorrect_answers],
+        correctAnswer: respostaCorreta,
+        allAnswersInOrder: emOrdem,
+        // wrongAnswers: [...questions[contador].incorrect_answers],
       }, () => this.startTimer());
     }
   };
@@ -150,11 +163,19 @@ class Game extends React.Component {
 
   render() {
     const {
-      questions, contador, isLoading, correctAnswer, wrongAnswers,
-      incorrect, correct, seconds, isPlaying,
+      questions,
+      contador,
+      isLoading,
+      correctAnswer,
+      // wrongAnswers,
+      incorrect,
+      correct,
+      seconds,
+      isPlaying,
+      allAnswersInOrder,
     } = this.state;
 
-    const allAnswers = [...correctAnswer, ...wrongAnswers];
+    // const allAnswers = [...correctAnswer, ...wrongAnswers];
     const convertedCorrectAnswer = correctAnswer[0];
 
     // if (!isLoading) {
@@ -175,7 +196,7 @@ class Game extends React.Component {
               {questions[contador].question}
             </p>
             <div data-testid="answer-options">
-              {this.shuffleArray(allAnswers).map((element, index) => (
+              {allAnswersInOrder.map((element, index) => (
                 <button
                   key={ element }
                   type="button"
