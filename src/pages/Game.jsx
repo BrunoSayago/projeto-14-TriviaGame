@@ -12,10 +12,9 @@ class Game extends React.Component {
     questions: [],
     contador: 0,
     isLoading: true,
-    // isDisabled: true,
     isPlaying: false,
     correctAnswer: [],
-    wrongAnswers: [],
+    allAnswersInOrder: [],
     incorrect: '',
     correct: '',
     timer: 0,
@@ -29,15 +28,17 @@ class Game extends React.Component {
     const localToken = localStorage.getItem('token');
     const questions = await getQuestions(localToken);
     const { results } = questions;
-    // console.log(results[contador]);
+    console.log(results);
 
     if (questions.response_code === 0) {
+      const respostaCorreta = [results[contador].correct_answer];
+      const respostasErradas = [...results[contador].incorrect_answers];
       this.startTimer();
       this.setState({
         isLoading: false,
         questions: results,
-        correctAnswer: [results[contador].correct_answer],
-        wrongAnswers: [...results[contador].incorrect_answers],
+        correctAnswer: respostaCorreta,
+        allAnswersInOrder: this.montaOrdem(respostaCorreta, respostasErradas),
         difficulty: results[contador].difficulty,
         isPlaying: true,
       });
@@ -49,6 +50,11 @@ class Game extends React.Component {
       history.push('/');
     }
   }
+
+  montaOrdem = (respostaCerta, respostasErradas) => {
+    const todasRespostas = [...respostaCerta, ...respostasErradas];
+    return this.shuffleArray(todasRespostas);
+  };
 
   shuffleArray = (arr) => {
     for (let i = arr.length - 1; i > 0; i -= 1) {
@@ -77,8 +83,6 @@ class Game extends React.Component {
     });
   };
 
-  /* correctAnswer: [results[contador].correct_answer],
-        wrongAnswers: [...results[contador].incorrect_answers], */
   nextClick = () => {
     const { contador, questions } = this.state;
     const FOUR = 4;
@@ -86,6 +90,9 @@ class Game extends React.Component {
     if (contador === FOUR) {
       history.push('/feedback');
     } else {
+      const respostaCorreta = [questions[contador + 1].correct_answer];
+      const respostasErradas = [...questions[contador + 1].incorrect_answers];
+      const emOrdem = this.montaOrdem(respostaCorreta, respostasErradas);
       this.setState({
         contador: contador + 1,
         isPlaying: true,
@@ -93,8 +100,8 @@ class Game extends React.Component {
         correct: '',
         timer: 0,
         seconds: 30,
-        correctAnswer: [questions[contador].correct_answer],
-        wrongAnswers: [...questions[contador].incorrect_answers],
+        correctAnswer: respostaCorreta,
+        allAnswersInOrder: emOrdem,
       }, () => this.startTimer());
     }
   };
@@ -116,7 +123,6 @@ class Game extends React.Component {
     default:
       modificador = ONE;
     }
-    // 10 + (timer * dificuldade)
     const actualStore = TEN + (seconds * modificador);
     return actualStore;
   };
@@ -150,61 +156,73 @@ class Game extends React.Component {
 
   render() {
     const {
-      questions, contador, isLoading, correctAnswer, wrongAnswers,
-      incorrect, correct, seconds, isPlaying,
+      questions,
+      contador,
+      isLoading,
+      correctAnswer,
+      incorrect,
+      correct,
+      seconds,
+      isPlaying,
+      allAnswersInOrder,
     } = this.state;
 
-    const allAnswers = [...correctAnswer, ...wrongAnswers];
     const convertedCorrectAnswer = correctAnswer[0];
 
-    // if (!isLoading) {
-    // }
     return (
       <div>
         {isLoading && <Loading />}
         {!isLoading && (
           <div>
             <Header />
-            <p name="timer">
-              {seconds}
-            </p>
-            <p data-testid="question-category">
-              {questions[contador].category}
-            </p>
-            <p data-testid="question-text">
-              {questions[contador].question}
-            </p>
-            <div data-testid="answer-options">
-              {this.shuffleArray(allAnswers).map((element, index) => (
-                <button
-                  key={ element }
-                  type="button"
-                  disabled={ !isPlaying }
-                  style={
-                    element === convertedCorrectAnswer
-                      ? { border: correct } : { border: incorrect }
-                  }
-                  data-testid={
-                    element === convertedCorrectAnswer
-                      ? 'correct-answer' : `wrong-answer-${index}`
-                  }
-                  onClick={ () => this.handleClick(element) }
-                >
-                  { element }
-                </button>))}
+            <div className="game-content-plusButton">
+              <div className="game-content">
+                <div className="game-question-box">
+                  <p data-testid="question-category" className="question-category">
+                    {questions[contador].category}
+                  </p>
+                  <p data-testid="question-text">
+                    {questions[contador].question}
+                  </p>
+                  <p name="timer">
+                    {`Tempo: ${seconds}`}
+                  </p>
+                </div>
+
+                <div data-testid="answer-options" className="answer-options">
+                  {allAnswersInOrder.map((element, index) => (
+                    <button
+                      key={ element }
+                      type="button"
+                      disabled={ !isPlaying }
+                      style={
+                        element === convertedCorrectAnswer
+                          ? { border: correct } : { border: incorrect }
+                      }
+                      data-testid={
+                        element === convertedCorrectAnswer
+                          ? 'correct-answer' : `wrong-answer-${index}`
+                      }
+                      onClick={ () => this.handleClick(element) }
+                    >
+                      { element }
+                    </button>))}
+                </div>
+              </div>
+              {
+                !isPlaying && (
+                  <button
+                    data-testid="btn-next"
+                    type="button"
+                    disabled={ isPlaying }
+                    onClick={ this.nextClick }
+                  >
+                    Next
+                  </button>)
+              }
             </div>
-            {
-              !isPlaying && (
-                <button
-                  data-testid="btn-next"
-                  type="button"
-                  disabled={ isPlaying }
-                  onClick={ this.nextClick }
-                >
-                  Next
-                </button>)
-            }
           </div>
+
         )}
       </div>
     );
@@ -213,7 +231,6 @@ class Game extends React.Component {
 
 const mapStateToProps = (state) => ({
   questions: state.game.questions,
-  // score: state.game.player.score,
   response_code: state.response_code,
 });
 
