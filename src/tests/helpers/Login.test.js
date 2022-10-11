@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndRedux } from './renderWithRouterAndRedux';
 import App from '../../App';
 
+const time = 2000;
 describe('será avaliado se o arquivo Login.test.js contem 90%', () => {
   test('A rota para esta página é"/"', () => {
     const { history } = renderWithRouterAndRedux(<App />);
@@ -28,8 +29,8 @@ describe('será avaliado se o arquivo Login.test.js contem 90%', () => {
     expect(buttonEntry).toBeEnabled();
     userEvent.click(buttonEntry);
 
-    await new Promise((r) => setTimeout(r, 2000));
-    expect(history.location.pathname).toBe('/games');
+    await new Promise((r) => setTimeout(r, time));
+    expect(history.location.pathname).toEqual('/games');
   });
   test('configurações click', () => {
     const { history } = renderWithRouterAndRedux(<App />);
