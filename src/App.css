@@ -1,4 +1,8 @@
 body {
+  background-blend-mode: multiply;
+  background-color: blueviolet;
+  background-image: url('https://s3-alpha-sig.figma.com/img/d597/7207/31ffbcff1f0c8619d2c08a229db1d5b6?Expires=1666569600&Signature=ez3oe4DFBZwdu6CwEbhxP-jFYEnPgJLxlaNqT624g83vFegA~Jt2HsUs5n9MBQkhln~-YkGrdptwfaBg~l~m7vLBUH2jjXbbiXZKXDltH6YmmRc5KQw0lId1zSS4mv6yQmzoWAezJxCeUobNI9FUg6TwOmtn0-iLb3ZtH3symqsgZc4kNmVco1bDQg3C~lAzLb0YiNZlfT2ImSwjpu3P0xWypltmWvolq7JxlHgCPD4e9O472nx7sHMhDhh6GIMrcZj8d9Iy3kavxSl25cyfzIzKqeaLEq-tJynquCMm16ngdA2ptGph8ZZJbzrI9UYI22MnjkU~yMmirvmqJN7oOw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA');
+  background-size: cover;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -13,42 +17,11 @@ body {
   pointer-events: none;
 }
 
-.red-border {
-  border: 1px solid red;
-}
-
-.green-border {
-  border: 1px solid green;
-}
-
-.correct {
-  border: 3px solid rgb(6, 240, 15);
-}
-
-.wrong {
-  border: 3px solid red;
-}
-
 @media ( prefers-reduced-motion : no-preference ) {
 
   .App-logo {
     animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   }
-}
-
-.App-header {
-  align-items: center;
-  background-color: #282c34;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  font-size: calc(10px + 2vmin);
-  justify-content: center;
-  min-height: 100vh;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes shake {
@@ -69,3 +42,162 @@ body {
     transform: translate3d(4px, 0, 0);
   }
 }
+
+.App-header {
+  align-items: center;
+  background-blend-mode: luminosity;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  display: flex;
+  flex-direction: row;
+  font-size: calc(10px + 2vmin);
+  justify-content: space-around;
+  min-height: 20vh;
+  padding: 0 70px;
+}
+
+.player-photo-header {
+  border-radius: 100%;
+}
+
+.header-user-info {
+  align-items: center;
+  display: flex;
+  flex-direction: row-reverse;
+  flex-grow: 2;
+  justify-content: space-around;
+}
+
+.login-logo {
+  margin-top: 50px;
+}
+
+.initial-form {
+  background-color: white;
+  border-radius: 10px;
+  color: black;
+  margin-bottom: 50px;
+  padding: 10px;
+}
+
+.initial-form div {
+  padding: 10px;
+}
+
+.initial-form div input {
+  width: 35vw;
+}
+
+.login-buttons-div {
+  display: flex;
+  justify-content: space-around;
+}
+
+.login-buttons-div button {
+  width: 150px;
+}
+
+.login-body {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 100vh;
+}
+
+.header-score-div * {
+  padding: 10px;
+}
+
+.game-content {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 70vh;
+  justify-content: space-around;
+}
+
+.game-content div {
+  margin: 0 40px;
+}
+
+.game-content-plusButton {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.game-content-plusButton div {
+  width: 80%;
+}
+
+.game-content-plusButton button {
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 10px 0;
+  width: 80%;
+}
+
+
+.game-question-box {
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-question-box * {
+  padding: 5px 20px;
+}
+
+.question-category {
+  background-color: yellow;
+  border-radius: 10px;
+}
+
+.answer-options {
+  align-items: baseline;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.answer-options button {
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.answer-options button:disabled {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+
+/*
+.App {
+  text-align: center;
+}
+
+.red-border {
+  border: 1px solid red;
+}
+
+.green-border {
+  border: 1px solid green;
+}
+
+.correct {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.wrong {
+  border: 3px solid red;
+}
+
+.App-link {
+  color: #61dafb;
+}
+*/

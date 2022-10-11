@@ -12,10 +12,8 @@ class Game extends React.Component {
     questions: [],
     contador: 0,
     isLoading: true,
-    // isDisabled: true,
     isPlaying: false,
     correctAnswer: [],
-    // wrongAnswers: [],
     allAnswersInOrder: [],
     incorrect: '',
     correct: '',
@@ -40,7 +38,6 @@ class Game extends React.Component {
         isLoading: false,
         questions: results,
         correctAnswer: respostaCorreta,
-        // wrongAnswers: respostasErradas,
         allAnswersInOrder: this.montaOrdem(respostaCorreta, respostasErradas),
         difficulty: results[contador].difficulty,
         isPlaying: true,
@@ -86,8 +83,6 @@ class Game extends React.Component {
     });
   };
 
-  /* correctAnswer: [results[contador].correct_answer],
-        wrongAnswers: [...results[contador].incorrect_answers], */
   nextClick = () => {
     const { contador, questions } = this.state;
     const FOUR = 4;
@@ -107,7 +102,6 @@ class Game extends React.Component {
         seconds: 30,
         correctAnswer: respostaCorreta,
         allAnswersInOrder: emOrdem,
-        // wrongAnswers: [...questions[contador].incorrect_answers],
       }, () => this.startTimer());
     }
   };
@@ -129,7 +123,6 @@ class Game extends React.Component {
     default:
       modificador = ONE;
     }
-    // 10 + (timer * dificuldade)
     const actualStore = TEN + (seconds * modificador);
     return actualStore;
   };
@@ -167,7 +160,6 @@ class Game extends React.Component {
       contador,
       isLoading,
       correctAnswer,
-      // wrongAnswers,
       incorrect,
       correct,
       seconds,
@@ -175,57 +167,62 @@ class Game extends React.Component {
       allAnswersInOrder,
     } = this.state;
 
-    // const allAnswers = [...correctAnswer, ...wrongAnswers];
     const convertedCorrectAnswer = correctAnswer[0];
 
-    // if (!isLoading) {
-    // }
     return (
       <div>
         {isLoading && <Loading />}
         {!isLoading && (
           <div>
             <Header />
-            <p name="timer">
-              {seconds}
-            </p>
-            <p data-testid="question-category">
-              {questions[contador].category}
-            </p>
-            <p data-testid="question-text">
-              {questions[contador].question}
-            </p>
-            <div data-testid="answer-options">
-              {allAnswersInOrder.map((element, index) => (
-                <button
-                  key={ element }
-                  type="button"
-                  disabled={ !isPlaying }
-                  style={
-                    element === convertedCorrectAnswer
-                      ? { border: correct } : { border: incorrect }
-                  }
-                  data-testid={
-                    element === convertedCorrectAnswer
-                      ? 'correct-answer' : `wrong-answer-${index}`
-                  }
-                  onClick={ () => this.handleClick(element) }
-                >
-                  { element }
-                </button>))}
+            <div className="game-content-plusButton">
+              <div className="game-content">
+                <div className="game-question-box">
+                  <p data-testid="question-category" className="question-category">
+                    {questions[contador].category}
+                  </p>
+                  <p data-testid="question-text">
+                    {questions[contador].question}
+                  </p>
+                  <p name="timer">
+                    {`Tempo: ${seconds}`}
+                  </p>
+                </div>
+
+                <div data-testid="answer-options" className="answer-options">
+                  {allAnswersInOrder.map((element, index) => (
+                    <button
+                      key={ element }
+                      type="button"
+                      disabled={ !isPlaying }
+                      style={
+                        element === convertedCorrectAnswer
+                          ? { border: correct } : { border: incorrect }
+                      }
+                      data-testid={
+                        element === convertedCorrectAnswer
+                          ? 'correct-answer' : `wrong-answer-${index}`
+                      }
+                      onClick={ () => this.handleClick(element) }
+                    >
+                      { element }
+                    </button>))}
+                </div>
+              </div>
+              {
+                !isPlaying && (
+                  <button
+                    data-testid="btn-next"
+                    type="button"
+                    disabled={ isPlaying }
+                    onClick={ this.nextClick }
+                  >
+                    Next
+                  </button>)
+              }
             </div>
-            {
-              !isPlaying && (
-                <button
-                  data-testid="btn-next"
-                  type="button"
-                  disabled={ isPlaying }
-                  onClick={ this.nextClick }
-                >
-                  Next
-                </button>)
-            }
           </div>
+
         )}
       </div>
     );
@@ -234,7 +231,6 @@ class Game extends React.Component {
 
 const mapStateToProps = (state) => ({
   questions: state.game.questions,
-  // score: state.game.player.score,
   response_code: state.response_code,
 });
 

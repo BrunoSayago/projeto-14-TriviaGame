@@ -5,7 +5,6 @@ import Game from './pages/Game';
 import Settings from './pages/Settings';
 import Feedback from './pages/Feedback';
 import Ranking from './pages/Ranking';
-// import logo from './trivia.png';
 import './App.css';
 
 class App extends Component {
