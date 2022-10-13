@@ -1,9 +1,14 @@
+* {
+  font-family: Anton , sans-serif;
+}
+
 body {
   background-blend-mode: multiply;
   background-color: blueviolet;
   background-image: url('https://s3-alpha-sig.figma.com/img/d597/7207/31ffbcff1f0c8619d2c08a229db1d5b6?Expires=1666569600&Signature=ez3oe4DFBZwdu6CwEbhxP-jFYEnPgJLxlaNqT624g83vFegA~Jt2HsUs5n9MBQkhln~-YkGrdptwfaBg~l~m7vLBUH2jjXbbiXZKXDltH6YmmRc5KQw0lId1zSS4mv6yQmzoWAezJxCeUobNI9FUg6TwOmtn0-iLb3ZtH3symqsgZc4kNmVco1bDQg3C~lAzLb0YiNZlfT2ImSwjpu3P0xWypltmWvolq7JxlHgCPD4e9O472nx7sHMhDhh6GIMrcZj8d9Iy3kavxSl25cyfzIzKqeaLEq-tJynquCMm16ngdA2ptGph8ZZJbzrI9UYI22MnjkU~yMmirvmqJN7oOw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA');
   background-size: cover;
   box-sizing: border-box;
+  font-family: Anton , sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -47,6 +52,7 @@ body {
   align-items: center;
   background-blend-mode: luminosity;
   background-color: rgba(255, 255, 255, 0.8);
+  border-bottom: 2px solid black;
   color: black;
   display: flex;
   flex-direction: row;
@@ -72,8 +78,24 @@ body {
   margin-top: 50px;
 }
 
+button {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+input {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
 .initial-form {
   background-color: white;
+  border: 2px solid black;
   border-radius: 10px;
   color: black;
   margin-bottom: 50px;
@@ -143,7 +165,8 @@ body {
 .game-question-box {
   align-items: center;
   background-color: white;
-  border-radius: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
 }
