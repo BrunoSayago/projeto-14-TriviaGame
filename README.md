@@ -25,7 +25,7 @@ Neste projeto foi desenvolvida uma aplicação de jogo de trivia (perguntas e re
 
 <br/>
 
-Assim como o projeto [TrybeWallet](https://github.com/BrunoSayago/projeto-13-TrybeWallet) , este projeto colocou em prática os conhecimentos de React em conjunto com o Redux. Entretanto, o principal intuito do projeto era simular uma situação real de mercado de trabalho, onde há necessidade de trabalhar em uma equipe de desenvolvedores, seguindo uma metodologia e um planejamento.
+Assim como o projeto [TrybeWallet](https://github.com/BrunoSayago/projeto-13-TrybeWallet), este projeto colocou em prática os conhecimentos de React em conjunto com o Redux. Entretanto, o principal intuito do projeto era simular uma situação real de mercado de trabalho, onde há necessidade de trabalhar em uma equipe de desenvolvedores, seguindo uma metodologia e um planejamento.
 
 <br/>
 Abaixo está um GIF que mostra a aplicação funcionando.
