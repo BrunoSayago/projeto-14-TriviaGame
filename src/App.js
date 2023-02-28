@@ -7,6 +7,8 @@ import Feedback from './pages/Feedback';
 import Ranking from './pages/Ranking';
 import './App.css';
 
+// solo branch
+
 class App extends Component {
   render() {
     return (
