@@ -31,7 +31,7 @@ Assim como o projeto [TrybeWallet](https://github.com/BrunoSayago/projeto-13-Try
 Abaixo está um GIF que mostra a aplicação funcionando.
 <br/>
 
-![Screenshot](screenshot1.gif)
+![Screenshot](screenshotTrivia.gif)
 
 <br/>
 
