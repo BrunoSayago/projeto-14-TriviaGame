@@ -13,6 +13,7 @@ Trivia Game (Jogo de Trivia)
  - JavaScript
  - HTML
  - CSS
+ - Kanban
  - [Biblioteca React](https://pt-br.reactjs.org/)
  - [React Router](https://reactrouter.com/en/main)
  - [Redux](https://redux.js.org/)
@@ -20,44 +21,24 @@ Trivia Game (Jogo de Trivia)
 
 
 ## Objetivos do Projeto
-A aplicação desenvolvida neste projeto foi uma carteira de controle de gastos, com conversor de moedas. A pessoa usuária é capaz de: adicionar, remover e editar um gasto; visualizar uma tabelas com seus gastos; e visualizar o total de gastos convertidos para uma moeda de escolha. 
-O intuito desse projeto foi colocar em prática as habilidades desenvolvidas com o Redux (no caso, o Redux em conjunto com o React) dentre elas: criar um store; criar reducers; criar actions; criar dispatchers; conectar Redux aos componentes React; e criar actions assíncronas na sua aplicação React que faz uso de Redux.
+Neste projeto foi desenvolvida uma aplicação de jogo de trivia (perguntas e respostas). Ele foi realizado em grupo, e junto comigo realizaram o projeto: (Lizia Towata)[https://github.com/LiziaTowata], (Nelson Filho)[https://github.com/NelsonFilho1984], (Robson Silva)[https://github.com/rm-l], e (Elivelton Machado)[https://github.com/El1v]. A organização do grupo foi feita por meio do uso da metodologia ágil Kanban, diagramada em um quadro na ferramenta (Trello)[https://trello.com/].
 
 <br/>
-Abaixo estão capturas de tela do projeto (vale lembrar que o objetivo principal do projeto era desenvolver a aplicação com foco na arquitetura do site utilizando React e Redux, e, por isso, não foi desenvolvido o CSS, portanto a aplicação está sem estilização).
-<br/>
+
+Assim como o projeto (TrybeWallet)[https://github.com/BrunoSayago/projeto-13-TrybeWallet], este projeto colocou em prática os conhecimentos de React em conjunto com o Redux. Entretanto, o principal intuito do projeto era simular uma situação real de mercado de trabalho, onde há necessidade de trabalhar em uma equipe de desenvolvedores, seguindo uma metodologia e um planejamento.
 
 <br/>
-Página Inicial de login, e clicando "enter", que redireciona para a carteira:
+Abaixo está um GIF que mostra a aplicação funcionando.
+<br/>
 
-![Screenshot Inicial](screenshot1.gif)
+![Screenshot](screenshot1.gif)
 
 <br/>
-Na página de carteira podemos ver os itens:
-
- - 1 A moeda padrão, para a qual valores serão convertidos.
- - 2 O valor gasto total (todos gastos somados), convertido para a moeda padrão.
- - 3 O formulário de preenchimento dos gastos, com as áreas de Valor, descrição do gasto, moeda em que foi feito, método de pagamento, tipo de gasto, e o botão para adicioná-lo.
- - 4 A tabela que contêm todos gastos adicionados.
-
-![Screenshot carteira vazia](screenshot2.png)
-
-
-<br/>
-O gif abaixo mostra um gasto sendo adicionado:
-
-![Screenshot adicionando gasto](screenshot3.gif)
-
-<br/>
-A captura de tela abaixo mostra uma carteira populada com alguns gastos.
-Note que há dois botões em cada gasto, Editar Despesa e Excluir. O botão de editar não foi implementado completamente, mas o botão de excluir deleta corretamente a despesa e atualiza o banco:
-
-![Screenshot carteira cheia](screenshot4.png)
 
 
 ## Instruções para visualização
 Comando para clonar o projeto:
- - `git clone git@github.com:BrunoSayago/projeto-13-TrybeWallet.git`
+ - `git clone git@github.com:BrunoSayago/projeto-14-TriviaGame.git`
  
 Se necessário, instalar as dependências:
  - `npm install`
